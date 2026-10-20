@@ -16,9 +16,9 @@ public class Computer
     public DownloadManager DownloadManager { get; set; }
 
 
-    public Computer()
+    public Computer(double size = 30 * 1024 * 1024)
     {
-        HardDisk = new(30 * 1024 * 1024);
+        HardDisk = new(size);
         DownloadManager = new(HardDisk);
 
         DownloadManager.DownloadCompleted += OnDownloadeCompleted;
