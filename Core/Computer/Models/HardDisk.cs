@@ -62,12 +62,12 @@ public class HardDisk
 
     private bool IsGameExists(Game game)
     {
-        return _games.Any(x => x.Name == game.Name);
+        return _games.Contains(game);
     }
 
     private bool IsGameReserved(Game game)
     {
-        return _reservedGames.Any(x => x.Name == game.Name);
+        return _reservedGames.Contains(game);
     }
 
     public bool AddGame(Game game)
