@@ -1,4 +1,4 @@
-﻿namespace Core.Tests;
+﻿namespace Core.Tests.ComputerModule;
 
 using Core.Computer.Models;
 

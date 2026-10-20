@@ -1,7 +1,7 @@
 using Core.Computer.Apps;
 using Core.Computer.Models;
 
-namespace Core.Tests;
+namespace Core.Tests.ComputerModule;
 
 
 
