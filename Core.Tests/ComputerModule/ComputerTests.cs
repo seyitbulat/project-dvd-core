@@ -1,8 +1,8 @@
 
 namespace Core.Tests.ComputerModule;
 
-using Core.Computer;
-using Core.Computer.Models;
+using Core.ComputerModule;
+using Core.ComputerModule.Models;
 using Xunit.Abstractions;
 
 public class ComputerTests

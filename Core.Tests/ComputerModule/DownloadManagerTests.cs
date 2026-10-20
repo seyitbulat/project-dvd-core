@@ -1,5 +1,5 @@
-using Core.Computer.Apps;
-using Core.Computer.Models;
+using Core.ComputerModule.Apps;
+using Core.ComputerModule.Models;
 
 namespace Core.Tests.ComputerModule;
 

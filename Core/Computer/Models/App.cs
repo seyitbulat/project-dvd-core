@@ -1,5 +1,5 @@
 
-namespace Core.Computer.Models;
+namespace Core.ComputerModule.Models;
 
 
 public enum AppStatus

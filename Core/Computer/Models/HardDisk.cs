@@ -1,4 +1,4 @@
-namespace Core.Computer.Models;
+namespace Core.ComputerModule.Models;
 
 
 using Sizes = (double TotalSize, double GameSize, double EmptySize);

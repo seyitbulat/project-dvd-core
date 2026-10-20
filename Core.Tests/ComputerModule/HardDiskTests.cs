@@ -1,6 +1,6 @@
 ﻿namespace Core.Tests.ComputerModule;
 
-using Core.Computer.Models;
+using Core.ComputerModule.Models;
 
 
 public class HardDiskTests

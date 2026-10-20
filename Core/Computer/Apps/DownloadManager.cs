@@ -1,7 +1,7 @@
 
-using Core.Computer.Models;
+using Core.ComputerModule.Models;
 
-namespace Core.Computer.Apps;
+namespace Core.ComputerModule.Apps;
 
 
 public class DownloadManager : App
