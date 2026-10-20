@@ -6,13 +6,19 @@ using Sizes = (double TotalSize, double GameSize, double EmptySize);
 public class HardDisk
 {
     private double Size { get; set; } // kbyte
-    private List<Game> Games = new(); // downloaded games 
+    private List<Game> _games; // downloaded games 
 
-    private List<Game> ReservedGames = new();
+    private List<Game> _reservedGames;
+
+    public IReadOnlyList<Game> InstalledGames {get => _games;}
+    public IReadOnlyList<Game> ReservedGames {get => _reservedGames;}
+
 
     public HardDisk(double size)
     {
         Size = size;
+        _games = new();
+        _reservedGames = new();
     }
 
 
@@ -24,7 +30,7 @@ public class HardDisk
 
         double reservedSize = GetReservedSize();
 
-        gameSize = Games.Select(x => x.Size).Sum();
+        gameSize = _games.Select(x => x.Size).Sum();
 
         emptySize = totalSize - gameSize - reservedSize;
 
@@ -46,7 +52,7 @@ public class HardDisk
 
     private bool IsGameExists(Game game)
     {
-        return Games.Any(x => x.Name == game.Name);
+        return _games.Any(x => x.Name == game.Name);
     }
 
     private bool IsGameReserved(Game game)
@@ -65,7 +71,7 @@ public class HardDisk
         {
             return false;
         }
-        Games.Add(game);
+        _games.Add(game);
 
         return true;
     }
@@ -88,7 +94,7 @@ public class HardDisk
             return false;
         }
 
-        ReservedGames.Add(game);
+        _reservedGames.Add(game);
 
         return true;
     }
@@ -97,7 +103,7 @@ public class HardDisk
     {
         if (IsGameReserved(game))
         {
-            ReservedGames.RemoveAll(g => g.Name == game.Name);
+            _reservedGames.RemoveAll(g => g.Name == game.Name);
             return true;
         }
         return false;
