@@ -1,6 +1,6 @@
 namespace Core.ComputerModule.Models;
 
-
+using Core.GameModule;
 using Sizes = (double TotalSize, double GameSize, double EmptySize);
 
 public class HardDisk

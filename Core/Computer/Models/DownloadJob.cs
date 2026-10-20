@@ -1,3 +1,5 @@
+using Core.GameModule;
+
 namespace Core.ComputerModule.Models;
 
 public enum DownloadJobStatus

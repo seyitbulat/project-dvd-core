@@ -1,9 +1,12 @@
-namespace Core.ComputerModule.Models;
+namespace Core.GameModule;
 
 
 
 public class Game
 {
+    private int _id;
+    public int Id => _id;
+
     private string _name;
     public string Name { get => _name; }
 
@@ -12,7 +15,7 @@ public class Game
     public double Size { get => _size; } // kbyte
 
 
-    public Game(string name, double size)
+    public Game(int id, string name, double size)
     {
         _name = name;
         _size = size;

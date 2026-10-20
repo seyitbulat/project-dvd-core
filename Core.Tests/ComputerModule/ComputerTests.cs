@@ -3,6 +3,7 @@ namespace Core.Tests.ComputerModule;
 
 using Core.ComputerModule;
 using Core.ComputerModule.Models;
+using Core.GameModule;
 using Xunit.Abstractions;
 
 public class ComputerTests
@@ -19,8 +20,8 @@ public class ComputerTests
         double delta = 0.016;
         Computer cp = new(256 * 1024 * 1024, 100);
 
-        var game1 = new Game("Cyberpunk", 39 * 1024 * 1024);
-        var game2 = new Game("FF7", 68 * 1024 * 1024);
+        var game1 = new Game(1,"Cyberpunk", 39 * 1024 * 1024);
+        var game2 = new Game(2,"FF7", 68 * 1024 * 1024);
 
         cp.DownloadManager.AddGameToDownload(game1);
         cp.DownloadManager.AddGameToDownload(game2);
@@ -52,8 +53,8 @@ public class ComputerTests
     {
         Computer cp = new(256 * 1024 * 1024, 100);
 
-        var game1 = new Game("Cyberpunk", 39 * 1024 * 1024);
-        var game2 = new Game("FF7", 68 * 1024 * 1024);
+        var game1 = new Game(1,"Cyberpunk", 39 * 1024 * 1024);
+        var game2 = new Game(2,"FF7", 68 * 1024 * 1024);
 
         cp.DownloadManager.AddGameToDownload(game1);
         cp.DownloadManager.AddGameToDownload(game2);
@@ -86,8 +87,8 @@ public class ComputerTests
     {
         Computer cp = new(256 * 1024 * 1024, 100);
 
-        var game1 = new Game("Cyberpunk", 39 * 1024 * 1024);
-        var game2 = new Game("FF7", 68 * 1024 * 1024);
+        var game1 = new Game(1,"Cyberpunk", 39 * 1024 * 1024);
+        var game2 = new Game(2,"FF7", 68 * 1024 * 1024);
         
         cp.DownloadManager.AddGameToDownload(game1);
         cp.DownloadManager.AddGameToDownload(game2);
@@ -120,7 +121,7 @@ public class ComputerTests
     {
        Computer cp = new(100 * 1024, 100);
 
-       var game = new Game("CyberPunk", 400);
+       var game = new Game(1,"CyberPunk", 400);
        cp.DownloadManager.AddGameToDownload(game);
        cp.Update(1);
        cp.Update(1);

@@ -1,7 +1,7 @@
 ﻿namespace Core.Tests.ComputerModule;
 
 using Core.ComputerModule.Models;
-
+using Core.GameModule;
 
 public class HardDiskTests
 {
@@ -26,7 +26,7 @@ public class HardDiskTests
     {
         var hd = new HardDisk(900 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
 
         var res = hd.ReserveGame(game);
 
@@ -39,7 +39,7 @@ public class HardDiskTests
     {
         var hd = new HardDisk(500 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
 
         var res = hd.ReserveGame(game);
 
@@ -54,7 +54,7 @@ public class HardDiskTests
 
         var hd = new HardDisk(900 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
 
         hd.ReserveGame(game);
 
@@ -70,8 +70,8 @@ public class HardDiskTests
     {
         var hd = new HardDisk(900 * 1024);
 
-        var game = new Game("game", 600 * 1024);
-        var game1 = new Game("game 1", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
+        var game1 = new Game(2,"game 1", 600 * 1024);
         hd.ReserveGame(game);
 
         var res = hd.ReserveGame(game1);
@@ -85,7 +85,7 @@ public class HardDiskTests
     {
         var hd = new HardDisk(1800 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
         hd.ReserveGame(game);
         var res = hd.ReserveGame(game);
 
@@ -98,7 +98,7 @@ public class HardDiskTests
     {
         var hd = new HardDisk(1800 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
         hd.ReserveGame(game);
         hd.AddGame(game);
 
@@ -114,9 +114,9 @@ public class HardDiskTests
 
         var hd = new HardDisk(1800 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
 
-        var game2 = new Game("game", 600 * 1024);
+        var game2 = new Game(2,"game", 600 * 1024);
 
         hd.ReserveGame(game);
         var res = hd.ReserveGame(game2);
@@ -132,7 +132,7 @@ public class HardDiskTests
     {
         var hd = new HardDisk(900 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
         hd.ReserveGame(game);
         hd.AddGame(game);
 
@@ -147,7 +147,7 @@ public class HardDiskTests
     {
         var hd = new HardDisk(900 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
 
         hd.AddGame(game);
 
@@ -163,7 +163,7 @@ public class HardDiskTests
         
         var hd = new HardDisk(500 * 1024);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
 
         var res = hd.AddGame(game);
 
@@ -176,7 +176,7 @@ public class HardDiskTests
     {
         var hd = new HardDisk(1200 * 1024);
 
-        var game = new Game("game", 300 * 1024);
+        var game = new Game(1,"game", 300 * 1024);
 
         var res1 = hd.AddGame(game);
 

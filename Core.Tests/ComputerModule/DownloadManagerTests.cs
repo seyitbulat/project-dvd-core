@@ -1,5 +1,6 @@
 using Core.ComputerModule.Apps;
 using Core.ComputerModule.Models;
+using Core.GameModule;
 
 namespace Core.Tests.ComputerModule;
 
@@ -14,7 +15,7 @@ public class DownloadManagerTests
         var hd = new HardDisk(4096 * 1024);
         var dm = new DownloadManager(hd);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
         var res = dm.AddGameToDownload(game);
 
         Assert.True(res);
@@ -28,7 +29,7 @@ public class DownloadManagerTests
         var hd = new HardDisk(4096 * 1024);
         var dm = new DownloadManager(hd);
 
-        var game = new Game("game", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
         var res1 = dm.AddGameToDownload(game);
         var res2 = dm.AddGameToDownload(game);
 
@@ -44,8 +45,8 @@ public class DownloadManagerTests
         var hd = new HardDisk(900 * 1024);
         var dm = new DownloadManager(hd);
 
-        var game = new Game("game", 600 * 1024);
-        var game1 = new Game("game1", 600 * 1024);
+        var game = new Game(1,"game", 600 * 1024);
+        var game1 = new Game(2,"game1", 600 * 1024);
         var res1 = dm.AddGameToDownload(game);
         var res2 = dm.AddGameToDownload(game1);
 
@@ -73,8 +74,8 @@ public class DownloadManagerTests
         var hd = new HardDisk(900 * 1024);
         var dm = new DownloadManager(hd);
 
-        var game1 = new Game("game1", 400 * 1024);
-        var game2 = new Game("game2", 400 * 1024);
+        var game1 = new Game(1,"game1", 400 * 1024);
+        var game2 = new Game(2,"game2", 400 * 1024);
 
         dm.AddGameToDownload(game1);
         dm.AddGameToDownload(game2);
@@ -95,7 +96,7 @@ public class DownloadManagerTests
         var hd = new HardDisk(900 * 1024);
         var dm = new DownloadManager(hd);
 
-        var game1 = new Game("game1", 400 * 1024);
+        var game1 = new Game(1,"game1", 400 * 1024);
 
         dm.AddGameToDownload(game1);
 
@@ -114,7 +115,7 @@ public class DownloadManagerTests
         var hd = new HardDisk(900 * 1024);
         var dm = new DownloadManager(hd);
 
-        var game1 = new Game("game1", 400 * 1024);
+        var game1 = new Game(1,"game1", 400 * 1024);
 
         dm.AddGameToDownload(game1);
 
@@ -142,8 +143,8 @@ public class DownloadManagerTests
         var hd = new HardDisk(900 * 1024);
         var dm = new DownloadManager(hd);
 
-        var game1 = new Game("game1", 400 * 1024);
-        var game2 = new Game("game2", 400 * 1024);
+        var game1 = new Game(1,"game1", 400 * 1024);
+        var game2 = new Game(1,"game2", 400 * 1024);
 
         dm.AddGameToDownload(game1);
         dm.AddGameToDownload(game2);
