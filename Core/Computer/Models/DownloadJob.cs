@@ -19,7 +19,7 @@ public class DownloadJob
     public event Action<DownloadJob>? DownloadProgressChanged;
 
 
-    public DownloadJob(Game game)
+    internal DownloadJob(Game game)
     {
         Game = game;
         CurrentSize = 0;

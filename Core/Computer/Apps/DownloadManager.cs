@@ -6,7 +6,14 @@ namespace Core.Computer.Apps;
 
 public class DownloadManager : App
 {
-    public List<DownloadJob> DownloadList = new();
+
+    private List<DownloadJob> _downloadList;
+    public IReadOnlyList<DownloadJob> DownloadList
+    {
+        get => _downloadList.AsReadOnly();
+
+    }
+
     public event Action<DownloadJob>? DownloadCompleted;
 
 
@@ -15,11 +22,12 @@ public class DownloadManager : App
     public DownloadManager(HardDisk hardDisk)
     {
         HardDisk = hardDisk;
+        _downloadList = new();
     }
     public bool AddGameToDownload(Game game)
     {
 
-        if (!DownloadList.Any(x => x.Game.Name == game.Name))
+        if (!_downloadList.Any(x => x.Game.Name == game.Name))
         {
 
             if (!HardDisk.ReserveGame(game))
@@ -27,7 +35,7 @@ public class DownloadManager : App
                 return false;
             }
             DownloadJob downloadJob = new(game);
-            DownloadList.Add(downloadJob);
+            _downloadList.Add(downloadJob);
 
             downloadJob.StartDownload();
 
@@ -41,7 +49,7 @@ public class DownloadManager : App
 
     public void Update(double delta, double internetSpeed)
     {
-        List<DownloadJob> downloading = DownloadList.Where(x => x.DownloadJobStatus == DownloadJobStatusEnum.Downloading).ToList();
+        List<DownloadJob> downloading = _downloadList.Where(x => x.DownloadJobStatus == DownloadJobStatusEnum.Downloading).ToList();
 
         if (downloading.Count > 0)
         {
@@ -67,7 +75,7 @@ public class DownloadManager : App
 
     public bool PauseDownload(Game game)
     {
-        var downloadJob = DownloadList.FirstOrDefault(x => x.Game.Name == game.Name);
+        var downloadJob = _downloadList.FirstOrDefault(x => x.Game.Name == game.Name);
         if (downloadJob != null)
         {
             return downloadJob.PauseDownload();
@@ -78,7 +86,7 @@ public class DownloadManager : App
 
     public bool ResumeDownload(Game game)
     {
-        var downloadJob = DownloadList.FirstOrDefault(x => x.Game.Name == game.Name);
+        var downloadJob = _downloadList.FirstOrDefault(x => x.Game.Name == game.Name);
         if (downloadJob != null)
         {
             return downloadJob.StartDownload();
