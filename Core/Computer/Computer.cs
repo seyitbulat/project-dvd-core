@@ -21,7 +21,6 @@ public class Computer
         HardDisk = new(size);
         DownloadManager = new(HardDisk);
 
-        DownloadManager.DownloadCompleted += OnDownloadeCompleted;
     }
 
     public bool OpenApp(App app)
@@ -40,8 +39,5 @@ public class Computer
         DownloadManager.Update(delta, InternetSpeed);
     }
 
-    private void OnDownloadeCompleted(DownloadJob downloadJob)
-    {
-        HardDisk.AddGame(downloadJob.Game);
-    }
+    
 }

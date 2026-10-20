@@ -10,9 +10,9 @@ public enum DownloadJobStatusEnum
 
 public class DownloadJob
 {
-    public Game Game { get; set; }
-    public DownloadJobStatusEnum DownloadJobStatus { get; set; }
-    public double CurrentSize { get; set; } // kbyte
+    public Game Game { get; private set; }
+    public DownloadJobStatusEnum DownloadJobStatus { get; private set; }
+    public double CurrentSize { get; private set; } // kbyte
 
     //events
     public event Action<DownloadJob>? DownloadCompleted;
@@ -26,7 +26,7 @@ public class DownloadJob
         DownloadJobStatus = DownloadJobStatusEnum.Queued;
     }
 
-    public bool StartDownload()
+    internal bool StartDownload()
     {
 
         switch (DownloadJobStatus)
@@ -41,7 +41,7 @@ public class DownloadJob
         }
     }
 
-    public bool PauseDownload()
+    internal bool PauseDownload()
     {
         switch (DownloadJobStatus)
         {
@@ -60,7 +60,7 @@ public class DownloadJob
         }
     }
 
-    public void Update(double delta, double speed)
+    internal void Update(double delta, double speed)
     {
         if (DownloadJobStatus == DownloadJobStatusEnum.Downloading)
         {

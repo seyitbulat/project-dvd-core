@@ -9,7 +9,6 @@ public class HardDisk
     private List<Game> Games = new(); // downloaded games 
 
     private List<Game> ReservedGames = new();
-    private double AllocatedSize = 0;
 
     public HardDisk(double size)
     {
@@ -111,28 +110,8 @@ public class HardDisk
         return false;
     }
 
-    public bool AllocateSize(Game game)
-    {
-        if (!IsCapacityEnough(game))
-        {
-            return false;
-        }
 
-        if (IsGameExists(game))
-        {
-            return false;
-        }
 
-        AllocatedSize += game.Size;
 
-        return true;
-    }
-
-    private bool FreeSize(Game game)
-    {
-        AllocatedSize -= game.Size;
-
-        return true;
-    }
 
 }
