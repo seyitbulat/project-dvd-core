@@ -49,18 +49,27 @@ public class DownloadManager : App
 
     public void Update(double delta, double internetSpeed)
     {
-        List<DownloadJob> downloading = _downloadList.Where(x => x.Status == DownloadJobStatus.Downloading).ToList();
-
-        if (downloading.Count > 0)
+        int downloadingCount = 0;
+        foreach (var job in _downloadList)
         {
-            double tempSpeed = internetSpeed / downloading.Count;
-
-            downloading.ForEach(c =>
+            if (job.Status == DownloadJobStatus.Downloading)
             {
-                c.Update(delta, tempSpeed);
-            });
+                downloadingCount++;
+            }
         }
 
+        if (downloadingCount == 0)
+            return;
+
+        double tempSpeed = internetSpeed / downloadingCount;
+
+        foreach (var job in _downloadList)
+        {
+            if (job.Status == DownloadJobStatus.Downloading)
+            {
+                job.Update(delta, tempSpeed);
+            }
+        }
 
     }
 
