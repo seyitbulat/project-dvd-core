@@ -24,10 +24,7 @@ public class HardDisk
 
         double reservedSize = GetReservedSize();
 
-        if (Games.Count > 0)
-        {
-            gameSize = Games.Select(x => x.Size).Sum();
-        }
+        gameSize = Games.Select(x => x.Size).Sum();
 
         emptySize = totalSize - gameSize - reservedSize;
 
@@ -36,19 +33,15 @@ public class HardDisk
 
     private bool IsCapacityEnough(Game game)
     {
-        (double totalSize, double gameSize, double emptySize) = GetSizes();
+        var sizes = GetSizes();
 
-        if (game.Size > emptySize)
-        {
-            return false;
-        }
-
-        return true;
+        return game.Size <= sizes.EmptySize;
+      
     }
 
     private double GetReservedSize()
     {
-        return ReservedGames.Count > 0 ? ReservedGames.Select(x => x.Size).Sum() : 0;
+        return ReservedGames.Select(x => x.Size).Sum();
     }
 
     private bool IsGameExists(Game game)
@@ -63,7 +56,7 @@ public class HardDisk
 
     public bool AddGame(Game game)
     {
-        UnReserveGame(game);
+        UnreserveGame(game);
         if (!IsCapacityEnough(game))
         {
             return false;
@@ -100,11 +93,11 @@ public class HardDisk
         return true;
     }
 
-    public bool UnReserveGame(Game game)
+    public bool UnreserveGame(Game game)
     {
         if (IsGameReserved(game))
         {
-            ReservedGames.Remove(game);
+            ReservedGames.RemoveAll(g => g.Name == game.Name);
             return true;
         }
         return false;

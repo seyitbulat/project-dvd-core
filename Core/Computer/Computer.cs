@@ -9,18 +9,22 @@ namespace Core.Computer;
 public class Computer
 {
     // To Upgradables
-    public HardDisk HardDisk { get; set; }
-    public double InternetSpeed { get; set; } // kbyte/s
+    private HardDisk _hardDisk;
+    public HardDisk HardDisk { get => _hardDisk; }
+
+    private double _internetSpeed;
+    public double InternetSpeed { get => _internetSpeed;} // kbyte/s
 
     // Apps
-    public DownloadManager DownloadManager { get; set; }
+    private DownloadManager _downloadManager;
+    public DownloadManager DownloadManager { get => _downloadManager; }
 
 
-    public Computer(double size = 30 * 1024 * 1024)
+    public Computer(double diskSize = 30 * 1024 * 1024, double internetSpeed = 100)
     {
-        HardDisk = new(size);
-        DownloadManager = new(HardDisk);
-
+        _hardDisk = new(diskSize);
+        _downloadManager = new(HardDisk);
+        _internetSpeed = internetSpeed;
     }
 
     public bool OpenApp(App app)
@@ -36,8 +40,8 @@ public class Computer
 
     public void Update(double delta)
     {
-        DownloadManager.Update(delta, InternetSpeed);
+        _downloadManager.Update(delta, InternetSpeed);
     }
 
-    
+
 }

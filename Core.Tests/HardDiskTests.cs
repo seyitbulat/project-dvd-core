@@ -1,6 +1,5 @@
 ﻿namespace Core.Tests;
 
-using Core.Computer;
 using Core.Computer.Models;
 
 
@@ -65,7 +64,7 @@ public class HardDiskTests
 
     }
 
-    // ⭐ 900'lük disk, iki tane 600'lük oyun, hiçbiri diske eklenmeden → ikinci rezervasyon false
+    //  900'lük disk, iki tane 600'lük oyun, hiçbiri diske eklenmeden → ikinci rezervasyon false
     [Fact]
     public void ReserveGame_TwoGamesExceedCapacity_SecondReturnsFalse()
     {
@@ -80,7 +79,7 @@ public class HardDiskTests
         Assert.False(res);
     }
 
-    // Aynı oyunu iki kez ayır → ikincisi false   (senin 3. testin)
+    // Aynı oyunu iki kez ayır → ikincisi false  
     [Fact]
     public void ReserveGame_AlreadyReserved_ReturnsFalse()
     {
@@ -93,7 +92,7 @@ public class HardDiskTests
         Assert.False(res);
     }
 
-    // Ayır + ekle, sonra tekrar ayır → false   (senin 2. testin)
+    // Ayır + ekle, sonra tekrar ayır → false   
     [Fact]
     public void ReserveGame_AlreadyOnDisk_ReturnsFalse()
     {
@@ -142,8 +141,9 @@ public class HardDiskTests
         Assert.Equal(300 * 1024, res.EmptySize);
     }
 
-    // ⭐ DVD senaryosu: rezervasyon yapmadan 600 ekle → true, EmptySize 300
-    [Fact] public void AddGame_UnreservedWithSpace_ReturnsTrue()
+    //  DVD senaryosu: rezervasyon yapmadan 600 ekle → true, EmptySize 300
+    [Fact]
+    public void AddGame_UnreservedWithSpace_ReturnsTrue()
     {
         var hd = new HardDisk(900 * 1024);
 
@@ -157,7 +157,8 @@ public class HardDiskTests
     }
 
     // Rezervasyon yapmadan 500'lük diske 600 ekle → false
-    [Fact] public void AddGame_UnreservedWithoutSpace_ReturnsFalse()
+    [Fact]
+    public void AddGame_UnreservedWithoutSpace_ReturnsFalse()
     {
         
         var hd = new HardDisk(500 * 1024);
@@ -169,8 +170,9 @@ public class HardDiskTests
         Assert.False(res);
     }
 
-    // ⭐ Aynı oyunu iki kez ekle → ikincisi false   (sonucu tahmin et, sonra çalıştır)
-    [Fact] public void AddGame_SameGameTwice_SecondReturnsFalse()
+    // Aynı oyunu iki kez ekle → ilki true, ikincisi false
+    [Fact]
+    public void AddGame_SameGameTwice_SecondReturnsFalse()
     {
         var hd = new HardDisk(1200 * 1024);
 

@@ -19,7 +19,7 @@ public class DownloadManager : App
 
     private HardDisk HardDisk; // reference
 
-    public DownloadManager(HardDisk hardDisk)
+    public DownloadManager(HardDisk hardDisk) : base("Download Manager")
     {
         HardDisk = hardDisk;
         _downloadList = new();
@@ -49,7 +49,7 @@ public class DownloadManager : App
 
     public void Update(double delta, double internetSpeed)
     {
-        List<DownloadJob> downloading = _downloadList.Where(x => x.DownloadJobStatus == DownloadJobStatusEnum.Downloading).ToList();
+        List<DownloadJob> downloading = _downloadList.Where(x => x.Status == DownloadJobStatus.Downloading).ToList();
 
         if (downloading.Count > 0)
         {

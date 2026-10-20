@@ -1,6 +1,6 @@
 namespace Core.Computer.Models;
 
-public enum DownloadJobStatusEnum
+public enum DownloadJobStatus
 {
     Queued,
     Downloading,
@@ -10,9 +10,14 @@ public enum DownloadJobStatusEnum
 
 public class DownloadJob
 {
-    public Game Game { get; private set; }
-    public DownloadJobStatusEnum DownloadJobStatus { get; private set; }
-    public double CurrentSize { get; private set; } // kbyte
+    private Game _game;
+    public Game Game { get => _game; }
+
+    private DownloadJobStatus _status;
+    public DownloadJobStatus Status { get => _status; }
+
+    private double _currentSize;
+    public double CurrentSize { get => _currentSize;  } // kbyte
 
     //events
     public event Action<DownloadJob>? DownloadCompleted;
@@ -21,56 +26,56 @@ public class DownloadJob
 
     internal DownloadJob(Game game)
     {
-        Game = game;
-        CurrentSize = 0;
-        DownloadJobStatus = DownloadJobStatusEnum.Queued;
+        _game = game;
+        _currentSize = 0;
+        _status = DownloadJobStatus.Queued;
     }
 
     internal bool StartDownload()
     {
 
-        switch (DownloadJobStatus)
+        switch (Status)
         {
-            case (DownloadJobStatusEnum.Completed):
+            case (DownloadJobStatus.Completed):
                 return false;
-            case DownloadJobStatusEnum.Downloading:
+            case DownloadJobStatus.Downloading:
                 return false;
             default:
-                DownloadJobStatus = DownloadJobStatusEnum.Downloading;
+                _status = DownloadJobStatus.Downloading;
                 return true;
         }
     }
 
     internal bool PauseDownload()
     {
-        switch (DownloadJobStatus)
+        switch (Status)
         {
-            case DownloadJobStatusEnum.Completed:
+            case DownloadJobStatus.Completed:
                 return false;
 
-            case DownloadJobStatusEnum.Queued:
+            case DownloadJobStatus.Queued:
                 return false;
 
-            case DownloadJobStatusEnum.Paused:
+            case DownloadJobStatus.Paused:
                 return false;
 
             default:
-                DownloadJobStatus = DownloadJobStatusEnum.Paused;
+                _status = DownloadJobStatus.Paused;
                 return true;
         }
     }
 
     internal void Update(double delta, double speed)
     {
-        if (DownloadJobStatus == DownloadJobStatusEnum.Downloading)
+        if (Status == DownloadJobStatus.Downloading)
         {
-            CurrentSize += (delta * speed);
+            _currentSize += (delta * speed);
 
 
             if (CurrentSize >= Game.Size)
             {
-                DownloadJobStatus = DownloadJobStatusEnum.Completed;
-                CurrentSize = Game.Size;
+                _status = DownloadJobStatus.Completed;
+                _currentSize = Game.Size;
                 DownloadProgressChanged?.Invoke(this);
 
                 DownloadCompleted?.Invoke(this);

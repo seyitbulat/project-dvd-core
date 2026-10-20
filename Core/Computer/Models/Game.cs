@@ -4,13 +4,17 @@ namespace Core.Computer.Models;
 
 public class Game
 {
-    public string Name { get; set; }
-    public double Size { get; set; } // kbyte
+    private string _name;
+    public string Name { get => _name; }
+
+
+    private double _size;
+    public double Size { get => _size; } // kbyte
 
 
     public Game(string name, double size)
     {
-        Name = name;
-        Size = size;
+        _name = name;
+        _size = size;
     }
 }

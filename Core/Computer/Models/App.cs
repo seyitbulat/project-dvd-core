@@ -4,42 +4,49 @@ namespace Core.Computer.Models;
 
 public enum AppStatus
 {
-    CLOESD,
-    OPEN,
+    Closed,
+    Open,
 }
 
 public abstract class App
 {
-    public string Name { get; set; }
-    private AppStatus Status { get; set; }
+    private string _name;
+    public string Name { get => _name; }
 
+    private AppStatus _status;
+    public AppStatus Status
+    {
+        get => _status;
+    }
 
+    public App(string name)
+    {
+        _name = name;
+        _status = AppStatus.Closed;
+    }
 
     public bool OpenApp()
     {
-        if (Status == AppStatus.OPEN)
+        if (Status == AppStatus.Open)
         {
             return false;
         }
 
-        Status = AppStatus.OPEN;
+        _status = AppStatus.Open;
 
         return true;
     }
 
     public bool CloseApp()
     {
-        if (Status == AppStatus.CLOESD)
+        if (_status == AppStatus.Closed)
         {
             return false;
         }
 
-        Status = AppStatus.CLOESD;
+        _status = AppStatus.Closed;
         return true;
     }
 
-    public AppStatus GetStatus()
-    {
-        return Status;
-    }
+   
 }

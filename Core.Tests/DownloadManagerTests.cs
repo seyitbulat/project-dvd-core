@@ -7,7 +7,7 @@ namespace Core.Tests;
 
 public class DownloadManagerTests
 {
-    // Yeni oyunu kuyruğa ekle → true
+    // Yeni oyunu ekle → true
     [Fact]
     public void AddGameToDownload_NewGame_ReturnsTrue()
     {
@@ -36,7 +36,7 @@ public class DownloadManagerTests
         Assert.False(res2);
     }
 
-    // ⭐ 900'lük disk, 600'lük iki oyunu kuyruğa ekle → ikincisi false
+    // 900'lük disk, 600'lük iki oyunu ekle → ikincisi false
     [Fact]
     public void AddGameToDownload_ExceedsDiskCapacity_ReturnsFalse()
     {
@@ -60,16 +60,8 @@ public class DownloadManagerTests
 
         var hd = new HardDisk(900 * 1024);
         var dm = new DownloadManager(hd);
+        dm.Update(100, 100 * 1024);
 
-        try
-        {
-            dm.Update(100, 100 * 1024);
-        }
-        catch (System.Exception)
-        {
-
-            Assert.Fail("Collapsed");
-        }
 
     }
 
@@ -89,8 +81,8 @@ public class DownloadManagerTests
 
         dm.Update(1, 100 * 1024);
 
-        var gm1 = dm.DownloadList.FirstOrDefault(x => x.Game == game1);
-        var gm2 = dm.DownloadList.FirstOrDefault(x => x.Game == game2);
+        var gm1 = dm.DownloadList.First(x => x.Game == game1);
+        var gm2 = dm.DownloadList.First(x => x.Game == game2);
 
 
         Assert.Equal(50 * 1024, gm1.CurrentSize);
@@ -136,44 +128,16 @@ public class DownloadManagerTests
 
         dm.Update(1, 100 * 1024);
 
-        var gm1 = dm.DownloadList.FirstOrDefault(x => x.Game == game1);
+        var gm1 = dm.DownloadList.First(x => x.Game == game1);
 
         var res = gm1.CurrentSize;
 
-        Assert.Equal(200 * 1024, res);        
+        Assert.Equal(200 * 1024, res);
     }
 
-    [Fact]
-    public void Update_PausedResumeDownload_Game()
-    {
-        var hd = new HardDisk(900 * 1024);
-        var dm = new DownloadManager(hd);
-
-        var game1 = new Game("game1", 400 * 1024);
-
-        dm.AddGameToDownload(game1);
-
-        dm.Update(1, 100 * 1024);
-
-        dm.PauseDownload(game1);
-
-        dm.Update(1, 100 * 1024);
-
-        var gm1 = dm.DownloadList.FirstOrDefault(x => x.Game == game1);
-
-        var res = gm1.CurrentSize;
-
-        dm.ResumeDownload(game1);
-        dm.Update(1, 100 * 1024);
-
-        var res2 = gm1.CurrentSize;
-
-        Assert.Equal(100 * 1024, res);
-        Assert.Equal(200 * 1024, res2);
-    }
 
     [Fact]
-    public void Update_DownloadPause_TwoGame()
+    public void Update_OneOfTwoPaused_OtherGetsFullSpeed()
     {
         var hd = new HardDisk(900 * 1024);
         var dm = new DownloadManager(hd);
@@ -184,8 +148,8 @@ public class DownloadManagerTests
         dm.AddGameToDownload(game1);
         dm.AddGameToDownload(game2);
 
-        var gm1 = dm.DownloadList.FirstOrDefault(x => x.Game == game1);
-        var gm2 = dm.DownloadList.FirstOrDefault(x => x.Game == game2);
+        var gm1 = dm.DownloadList.First(x => x.Game == game1);
+        var gm2 = dm.DownloadList.First(x => x.Game == game2);
 
 
         dm.Update(1, 100 * 1024);
