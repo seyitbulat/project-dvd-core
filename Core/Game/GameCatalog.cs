@@ -1,5 +1,6 @@
-using Core.ComputerModule.Models;
 
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace Core.GameModule;
 
@@ -15,5 +16,16 @@ public class GameCatalog
         _games = new();
     }
 
-    
+
+    public bool TryGet(int id, [NotNullWhen(true)] out Game? game)
+    {
+      return _games.TryGetValue(id, out game);
+    }
+
+    public bool Add(Game game)
+    {
+        return _games.TryAdd(game.Id, game);
+    }
+
+
 }
