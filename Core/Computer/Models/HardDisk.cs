@@ -10,8 +10,8 @@ public class HardDisk
 
     private List<Game> _reservedGames;
 
-    public IReadOnlyList<Game> InstalledGames {get => _games;}
-    public IReadOnlyList<Game> ReservedGames {get => _reservedGames;}
+    public IReadOnlyList<Game> InstalledGames => _games;
+    public IReadOnlyList<Game> ReservedGames => _reservedGames;
 
 
     public HardDisk(double size)
@@ -30,7 +30,11 @@ public class HardDisk
 
         double reservedSize = GetReservedSize();
 
-        gameSize = _games.Select(x => x.Size).Sum();
+
+        foreach(var game in _games)
+        {
+            gameSize += game.Size;
+        }
 
         emptySize = totalSize - gameSize - reservedSize;
 
@@ -47,7 +51,13 @@ public class HardDisk
 
     private double GetReservedSize()
     {
-        return ReservedGames.Select(x => x.Size).Sum();
+        double size = 0;
+
+        foreach(var game in _reservedGames)
+        {
+            size += game.Size;
+        }
+        return size;
     }
 
     private bool IsGameExists(Game game)
@@ -57,7 +67,7 @@ public class HardDisk
 
     private bool IsGameReserved(Game game)
     {
-        return ReservedGames.Any(x => x.Name == game.Name);
+        return _reservedGames.Any(x => x.Name == game.Name);
     }
 
     public bool AddGame(Game game)

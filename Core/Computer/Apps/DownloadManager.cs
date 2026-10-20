@@ -8,11 +8,9 @@ public class DownloadManager : App
 {
 
     private List<DownloadJob> _downloadList;
-    public IReadOnlyList<DownloadJob> DownloadList
-    {
-        get => _downloadList.AsReadOnly();
 
-    }
+    public IReadOnlyList<DownloadJob> DownloadList => _downloadList;
+   
 
     public event Action<DownloadJob>? DownloadCompleted;
 
