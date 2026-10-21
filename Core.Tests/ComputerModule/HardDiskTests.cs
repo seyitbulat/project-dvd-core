@@ -107,22 +107,6 @@ public class HardDiskTests
         Assert.False(res);
     }
 
-    // Aynı isimde ama farklı iki Game nesnesi → ikincisi false
-    [Fact]
-    public void ReserveGame_DifferentObjectSameName_ReturnsFalse()
-    {
-
-        var hd = new HardDisk(1800 * 1024);
-
-        var game = new Game(1,"game", 600 * 1024);
-
-        var game2 = new Game(2,"game", 600 * 1024);
-
-        hd.ReserveGame(game);
-        var res = hd.ReserveGame(game2);
-
-        Assert.False(res);
-    }
 
     // --- AddGame ---
 

@@ -1,4 +1,5 @@
 
+using System.Diagnostics.CodeAnalysis;
 using Core.ComputerModule.Models;
 using Core.GameModule;
 
@@ -11,7 +12,7 @@ public class DownloadManager : App
     private List<DownloadJob> _downloadList;
 
     public IReadOnlyList<DownloadJob> DownloadList => _downloadList;
-   
+
 
     public event Action<DownloadJob>? DownloadCompleted;
 
@@ -26,23 +27,23 @@ public class DownloadManager : App
     public bool AddGameToDownload(Game game)
     {
 
-        if (!_downloadList.Any(x => x.Game.Name == game.Name))
+        if (TryGetDownloadJobByGame(game, out _))
         {
-
-            if (!HardDisk.ReserveGame(game))
-            {
-                return false;
-            }
-            DownloadJob downloadJob = new(game);
-            _downloadList.Add(downloadJob);
-
-            downloadJob.StartDownload();
-
-            downloadJob.DownloadCompleted += OnDownloaded;
-            return true;
+            return false;
         }
 
-        return false;
+        if (!HardDisk.ReserveGame(game))
+        {
+            return false;
+        }
+        DownloadJob downloadJob = new(game);
+        _downloadList.Add(downloadJob);
+
+        downloadJob.StartDownload();
+
+        downloadJob.DownloadCompleted += OnDownloaded;
+        return true;
+
     }
 
 
@@ -83,10 +84,10 @@ public class DownloadManager : App
 
     public bool PauseDownload(Game game)
     {
-        var downloadJob = _downloadList.FirstOrDefault(x => x.Game.Name == game.Name);
-        if (downloadJob != null)
+
+        if (TryGetDownloadJobByGame(game, out var job))
         {
-            return downloadJob.PauseDownload();
+            return job.PauseDownload();
         }
 
         return false;
@@ -94,13 +95,27 @@ public class DownloadManager : App
 
     public bool ResumeDownload(Game game)
     {
-        var downloadJob = _downloadList.FirstOrDefault(x => x.Game.Name == game.Name);
-        if (downloadJob != null)
+        if (TryGetDownloadJobByGame(game, out var job))
         {
-            return downloadJob.StartDownload();
+            return job.StartDownload();
         }
 
         return false;
     }
 
+    private bool TryGetDownloadJobByGame(Game game, [NotNullWhen(true)] out DownloadJob? outJob)
+    {
+        foreach (var job in _downloadList)
+        {
+            if (ReferenceEquals(game, job.Game))
+            {
+                outJob = job;
+
+                return true;
+            }
+        }
+
+        outJob = null;
+        return false;
+    }
 }

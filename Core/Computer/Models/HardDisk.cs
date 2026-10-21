@@ -31,7 +31,7 @@ public class HardDisk
         double reservedSize = GetReservedSize();
 
 
-        foreach(var game in _games)
+        foreach (var game in _games)
         {
             gameSize += game.Size;
         }
@@ -46,14 +46,14 @@ public class HardDisk
         var sizes = GetSizes();
 
         return game.Size <= sizes.EmptySize;
-      
+
     }
 
     private double GetReservedSize()
     {
         double size = 0;
 
-        foreach(var game in _reservedGames)
+        foreach (var game in _reservedGames)
         {
             size += game.Size;
         }
@@ -111,16 +111,8 @@ public class HardDisk
 
     public bool UnreserveGame(Game game)
     {
-        if (IsGameReserved(game))
-        {
-            _reservedGames.RemoveAll(g => g.Name == game.Name);
-            return true;
-        }
-        return false;
+        return _reservedGames.Remove(game);
     }
-
-
-
 
 
 }

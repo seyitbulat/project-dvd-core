@@ -128,7 +128,7 @@ public class ComputerTests
        cp.Update(1);
        cp.Update(1);
 
-       var iGame = cp.HardDisk.InstalledGames.Any(c => c.Name == game.Name);
+       var iGame = cp.HardDisk.InstalledGames.Contains(game);
 
        var sizes = cp.HardDisk.GetSizes();
     
