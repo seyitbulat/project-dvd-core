@@ -14,6 +14,13 @@ public class WalletTests
         Assert.Equal(2000, wallet.Balance);
     }
 
+    // Borç paraya dönüşmesin: negatif başlangıç bakiyesi reddedilir
+    [Fact]
+    public void Constructor_NegativeBalance_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Wallet(-1));
+    }
+
     // --- Pay ---
 
     // 2000 bakiye, 1999 öde → 1 kalır
@@ -104,6 +111,19 @@ public class WalletTests
         Assert.Equal(0, raisedCount);
     }
 
+    // Bakiye değişmedi → "bakiye değişti" haberi verilmemeli
+    [Fact]
+    public void Pay_ZeroAmount_DoesNotRaiseBalanceChanged()
+    {
+        var wallet = new Wallet(2000);
+        int raisedCount = 0;
+        wallet.BalanceChanged += _ => raisedCount++;
+
+        wallet.Pay(0);
+
+        Assert.Equal(0, raisedCount);
+    }
+
     // --- Receive ---
 
     [Fact]
@@ -154,6 +174,18 @@ public class WalletTests
         wallet.BalanceChanged += _ => raisedCount++;
 
         wallet.Receive(-500);
+
+        Assert.Equal(0, raisedCount);
+    }
+
+    [Fact]
+    public void Receive_ZeroAmount_DoesNotRaiseBalanceChanged()
+    {
+        var wallet = new Wallet(2000);
+        int raisedCount = 0;
+        wallet.BalanceChanged += _ => raisedCount++;
+
+        wallet.Receive(0);
 
         Assert.Equal(0, raisedCount);
     }

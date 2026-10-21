@@ -9,11 +9,12 @@ public class Wallet
     public long Balance => _balance;
 
 
-    public event Action<long> BalanceChanged;
+    public event Action<long>? BalanceChanged;
 
     public Wallet(long balance)
-    {   
-        _balance = balance < 0 ? -balance : balance;
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(balance);
+        _balance = balance;
     }
 
 
@@ -28,7 +29,11 @@ public class Wallet
 
         _balance -= amount;
 
-        BalanceChanged?.Invoke(_balance);
+        if (amount != 0)
+        {
+            BalanceChanged?.Invoke(_balance);
+
+        }
 
         return true;
     }
@@ -39,7 +44,11 @@ public class Wallet
 
         _balance += amount;
 
-        BalanceChanged?.Invoke(_balance);
+        if (amount != 0)
+        {
+            BalanceChanged?.Invoke(_balance);
+
+        }
         return true;
     }
 
