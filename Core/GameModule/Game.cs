@@ -19,5 +19,7 @@ public class Game
         _id = id;
         _name = name;
         _size = size;
+
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(size);
     }
 }
