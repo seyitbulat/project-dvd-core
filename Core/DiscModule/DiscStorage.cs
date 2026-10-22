@@ -41,11 +41,17 @@ public class DiscStorage
 
         if(Unsafe.IsNullRef(ref count))
         {
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(0, amount);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(amount, 0);
         }
 
         ArgumentOutOfRangeException.ThrowIfGreaterThan(amount, count);
 
         count -= amount;
+
+
+        if(count == 0)
+        {
+            _discCount.Remove(key);
+        }
     }
 }
