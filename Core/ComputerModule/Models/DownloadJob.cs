@@ -67,6 +67,20 @@ public class DownloadJob
         }
     }
 
+    internal bool CancelDownload()
+    {
+        switch (Status)
+        {
+            case DownloadJobStatus.Queued:
+            return false;
+            case DownloadJobStatus.Completed:
+            return false;
+            default:
+                _status = DownloadJobStatus.Queued;
+                return true;
+        }
+    }
+
     internal void Update(double delta, double speed)
     {
         if (Status == DownloadJobStatus.Downloading)

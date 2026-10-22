@@ -71,6 +71,9 @@ public class DownloadManager : App
             }
         }
 
+
+        _downloadList.RemoveAll(di => di.Status == DownloadJobStatus.Completed || di.Status == DownloadJobStatus.Queued);
+
     }
 
     private void OnDownloaded(DownloadJob downloadJob)
@@ -98,6 +101,17 @@ public class DownloadManager : App
         if (TryGetDownloadJobByGame(game, out var job))
         {
             return job.StartDownload();
+        }
+
+        return false;
+    }
+
+
+    public bool CancelDownload(Game game)
+    {
+        if (TryGetDownloadJobByGame(game, out var job))
+        {
+            return job.CancelDownload();
         }
 
         return false;
