@@ -41,7 +41,7 @@ public class DiscStorage
 
         if(Unsafe.IsNullRef(ref count))
         {
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(amount, 0);
+            throw new ArgumentOutOfRangeException("Key not found");
         }
 
         ArgumentOutOfRangeException.ThrowIfGreaterThan(amount, count);
