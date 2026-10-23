@@ -1,4 +1,3 @@
-
 using System.Diagnostics.CodeAnalysis;
 using Core.ComputerModule.Models;
 using Core.GameModule;
@@ -15,7 +14,7 @@ public class DownloadManager : App
 
 
     public event Action<DownloadJob>? DownloadCompleted;
-
+    public event Action<DownloadJob>? DownloadCancelled;
 
     private HardDisk HardDisk; // reference
 
@@ -42,6 +41,7 @@ public class DownloadManager : App
         downloadJob.StartDownload();
 
         downloadJob.DownloadCompleted += OnDownloaded;
+        downloadJob.DownloadCancelled += OnCancelled;
         return true;
 
     }
@@ -58,32 +58,37 @@ public class DownloadManager : App
             }
         }
 
-        if (downloadingCount == 0)
-            return;
-
-        double tempSpeed = internetSpeed / downloadingCount;
-
-        foreach (var job in _downloadList)
+        if (downloadingCount != 0)
         {
-            if (job.Status == DownloadJobStatus.Downloading)
+            double tempSpeed = internetSpeed / downloadingCount;
+
+            foreach (var job in _downloadList)
             {
-                job.Update(delta, tempSpeed);
+                if (job.Status == DownloadJobStatus.Downloading)
+                {
+                    job.Update(delta, tempSpeed);
+                }
             }
+
         }
 
 
-        _downloadList.RemoveAll(di => di.Status == DownloadJobStatus.Completed || di.Status == DownloadJobStatus.Queued);
+        _downloadList.RemoveAll(di => di.Status == DownloadJobStatus.Completed || di.Status == DownloadJobStatus.Cancelled);
 
     }
 
     private void OnDownloaded(DownloadJob downloadJob)
     {
         HardDisk.AddGame(downloadJob.Game);
-
         DownloadCompleted?.Invoke(downloadJob);
 
     }
 
+    private void OnCancelled(DownloadJob downloadJob)
+    {
+        HardDisk.UnreserveGame(downloadJob.Game);
+        DownloadCancelled?.Invoke(downloadJob);
+    }
 
     public bool PauseDownload(Game game)
     {

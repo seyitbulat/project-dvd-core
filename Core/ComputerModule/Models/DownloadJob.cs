@@ -4,10 +4,10 @@ namespace Core.ComputerModule.Models;
 
 public enum DownloadJobStatus
 {
-    Queued,
     Downloading,
     Paused,
-    Completed
+    Completed,
+    Cancelled,
 }
 
 public class DownloadJob
@@ -24,13 +24,13 @@ public class DownloadJob
     //events
     public event Action<DownloadJob>? DownloadCompleted;
     public event Action<DownloadJob>? DownloadProgressChanged;
-
+    public event Action<DownloadJob>? DownloadCancelled;
 
     internal DownloadJob(Game game)
     {
         _game = game;
         _currentSize = 0;
-        _status = DownloadJobStatus.Queued;
+        _status = DownloadJobStatus.Paused;
     }
 
     internal bool StartDownload()
@@ -41,6 +41,8 @@ public class DownloadJob
             case (DownloadJobStatus.Completed):
                 return false;
             case DownloadJobStatus.Downloading:
+                return false;
+            case DownloadJobStatus.Cancelled:
                 return false;
             default:
                 _status = DownloadJobStatus.Downloading;
@@ -55,7 +57,7 @@ public class DownloadJob
             case DownloadJobStatus.Completed:
                 return false;
 
-            case DownloadJobStatus.Queued:
+            case DownloadJobStatus.Cancelled:
                 return false;
 
             case DownloadJobStatus.Paused:
@@ -71,12 +73,13 @@ public class DownloadJob
     {
         switch (Status)
         {
-            case DownloadJobStatus.Queued:
+            case DownloadJobStatus.Cancelled:
             return false;
             case DownloadJobStatus.Completed:
             return false;
             default:
-                _status = DownloadJobStatus.Queued;
+                _status = DownloadJobStatus.Cancelled;
+                DownloadCancelled?.Invoke(this);
                 return true;
         }
     }
@@ -104,6 +107,4 @@ public class DownloadJob
 
         }
     }
-
-
 }
